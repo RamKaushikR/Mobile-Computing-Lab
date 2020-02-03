@@ -7,60 +7,82 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/draw"
-        android:text="Draw"
-        android:layout_centerHorizontal="true"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/animate"
-        android:text="Animate"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/car"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/car"
         android:text="Car"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/draw"/>
+        android:layout_marginLeft="60dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/zoom"
+        android:text="Zoom"
+        android:layout_marginLeft="60dp"
+        android:layout_below="@+id/car"
+        android:visibility="invisible"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/animation"
+        android:text="Animation"
+        android:layout_marginLeft="160dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/draw"
+        android:text="Draw"
+        android:layout_marginLeft="270dp"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/forward"
         android:text="Forward"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/animate"/>
+        android:layout_marginLeft="270dp"
+        android:layout_below="@+id/draw"
+        android:visibility="invisible"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/backward"
         android:text="Backward"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/forward"/>
+        android:layout_marginLeft="270dp"
+        android:layout_below="@+id/forward"
+        android:visibility="invisible"/>
 
     <ImageView
         android:layout_width="200dp"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:id="@+id/image_car"
-        android:layout_below="@id/backward"
+        android:layout_below="@+id/backward"
         android:layout_centerHorizontal="true"
         android:background="@drawable/car"
         android:layout_marginTop="20dp"
         android:visibility="invisible"/>
 
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:id="@+id/animate"
+        android:layout_below="@+id/image_car"
+        android:src="@drawable/e0"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:visibility="invisible"/>
+<!--        android:src="@drawable/e0"-->
+
+
     <com.example.myapplication.DrawView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/image_car"
+        android:layout_below="@+id/animate"
         android:id="@+id/drawview"
         android:visibility="invisible"/>
 
