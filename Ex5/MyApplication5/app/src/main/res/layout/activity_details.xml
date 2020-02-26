@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Details">
+
+    <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Name: "
+            android:padding="15dip"/>
+        <TextView
+            android:id="@+id/name"
+            android:gravity="right" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Address: "
+            android:padding="15dip"/>
+        <TextView
+            android:id="@+id/address"
+            android:gravity="right" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Age: "
+            android:padding="15dip"/>
+        <TextView
+            android:id="@+id/age"
+            android:gravity="right" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="DOB: "
+            android:padding="15dip"/>
+        <TextView
+            android:id="@+id/dob"
+            android:gravity="right" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Gender: "
+            android:padding="15dip"/>
+        <TextView
+            android:id="@+id/gender"
+            android:gravity="right" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Marital Status: "
+            android:padding="15dip"/>
+        <TextView
+            android:id="@+id/married"
+            android:gravity="right" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Phone: "
+            android:padding="15dip"/>
+        <TextView
+            android:id="@+id/phone"
+            android:gravity="right" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Time: "
+            android:padding="15dip"/>
+        <TextView
+            android:id="@+id/time"
+            android:gravity="right" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Addiction: "
+            android:padding="15dip"/>
+        <TextView
+            android:id="@+id/addiction"
+            android:gravity="right" />
+    </TableRow>
+
+</TableLayout>
