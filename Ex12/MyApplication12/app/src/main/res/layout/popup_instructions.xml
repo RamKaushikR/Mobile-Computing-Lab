@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/gradient"
-    >
+    android:backgroundTint="#60FFFFFF"
+    android:backgroundTintMode="src_over">
 
     <TextView
         android:layout_width="match_parent"
@@ -14,8 +15,7 @@
         android:layout_gravity="center"
         android:paddingLeft="67dp"
         android:layout_centerHorizontal="true"
-        android:textSize="20dp"
-        android:background="@drawable/heading"/>
+        android:textSize="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
