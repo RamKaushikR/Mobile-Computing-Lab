@@ -2,21 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@android:color/black"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/gradient"
+    >
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Instructions"
-        android:textColor="@android:color/white"
-        android:layout_marginHorizontal="50dp"
-        android:textSize="20dp"/>
+        android:textColor="@android:color/black"
+        android:layout_gravity="center"
+        android:paddingLeft="67dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        android:background="@drawable/heading"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="These are the instructions of this\ngame hi my name jeff"
-        android:textColor="@android:color/white"/>
-
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="@string/instructions"
+        android:textColor="@android:color/black"
+        />
 </LinearLayout>

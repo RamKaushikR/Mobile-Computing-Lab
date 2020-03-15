@@ -2,10 +2,14 @@ package com.app.cowsandbulls;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,18 +19,25 @@ import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class PlayActivity extends AppCompatActivity {
 
+    static DBHelper dbHelper;
+    static SQLiteDatabase db;
     EditText entered_word, g, g_next;
     String word, guess;
-    TextView invalid, selected, br, cr, b, c;
+    TextView invalid, selected, br, cr, b, c, invalid_enter;
     Button submit, enter, giveup;
-    int bulls = 0, cows = 0, guess_count = 1;
+    int guess_count = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
+
+        dbHelper = new DBHelper(getApplicationContext(), "words.sqlite");
+        db = SQLiteDatabase.openDatabase(dbHelper.DB_PATH + dbHelper.DB_NAME, null, SQLiteDatabase.OPEN_READONLY);
 
         entered_word = (EditText) findViewById(R.id.word);
         enter = (Button) findViewById(R.id.enter);
@@ -50,23 +61,30 @@ public class PlayActivity extends AppCompatActivity {
         giveup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "GAVE UP! WORD IS " + word, Toast.LENGTH_LONG).show();
-                g.setInputType(InputType.TYPE_NULL);
-                submit.setVisibility(View.INVISIBLE);
+                giveUp();
             }
         });
 
     }
 
     public boolean isValid(String text) {
-        /*Write the dictionary logic here*/
+        if(text.length() != 4)
+            return  false;
+
+        Cursor cursor = db.rawQuery("SELECT * FROM words WHERE word='" + text.toLowerCase() + "';", new String[] {});
+        if(!cursor.moveToNext())
+            return false;
+
         return true;
     }
 
     public void player1() {
         word = entered_word.getText().toString();
+        word = word.toLowerCase();
 
         if(isValid(word)) {
+            hideKeyboard(this);
+
             selected = (TextView) findViewById(R.id.selected);
             b = (TextView) findViewById(R.id.bulls);
             c = (TextView) findViewById(R.id.cows);
@@ -80,17 +98,40 @@ public class PlayActivity extends AppCompatActivity {
             g.setVisibility(View.VISIBLE);
             submit.setVisibility(View.VISIBLE);
             giveup.setVisibility(View.VISIBLE);
+            invalid_enter = (TextView) findViewById(R.id.invalid_enter);
+            invalid_enter.setVisibility(View.INVISIBLE);
         }
         else {
-            invalid = (TextView) findViewById(R.id.invalid);
-            invalid.setVisibility(View.VISIBLE);
+            invalid_enter = (TextView) findViewById(R.id.invalid_enter);
+            invalid_enter.setVisibility(View.VISIBLE);
         }
     }
 
     public void findBullsAndCows(String guess) {
-        /*
-        Write the main logic here
-        */
+        guess = guess.toLowerCase();
+        ArrayList<Integer> traversed = new ArrayList<Integer>();
+        int i, j, bulls = 0, cows = 0;
+
+        for(i = 0; i < 4; i++) {
+            for(j = 0; j < 4; j++) {
+                System.out.println("GUESS: " + guess.charAt(i) + i + " WORD: " + word.charAt(j) + j);
+                if(guess.charAt(i) == word.charAt(j)) {
+                    if(traversed.indexOf(j) < 0) {
+                        traversed.add(j);
+                        if(i == j)
+                            bulls++;
+                        else
+                            cows++;
+                        if(i == 3)
+                            break;
+                        else
+                            i++;
+                        j = -1;
+                    }
+                }
+            }
+        }
+
         if(guess_count == 1) {br = (TextView) findViewById(R.id.b1); cr = (TextView) findViewById(R.id.c1); g_next = (EditText) findViewById(R.id.guess2);}
         else if(guess_count == 2) {br = (TextView) findViewById(R.id.b2); cr = (TextView) findViewById(R.id.c2); g_next = (EditText) findViewById(R.id.guess3);}
         else if(guess_count == 3) {br = (TextView) findViewById(R.id.b3); cr = (TextView) findViewById(R.id.c3); g_next = (EditText) findViewById(R.id.guess4);}
@@ -109,22 +150,24 @@ public class PlayActivity extends AppCompatActivity {
         br.setVisibility(View.VISIBLE);
         cr.setVisibility(View.VISIBLE);
 
-        guess_count++;
+        if(bulls != 4) guess_count++;
 
         if(bulls == 4) {
             String guesses;
             if (guess_count == 1)
                 guesses = "1 GUESS!";
             else
-                guesses = Integer.toString(guess_count) + "GUESSES!";
-            Toast.makeText(this, "WORD FOUND IN" + guesses, Toast.LENGTH_LONG).show();
+                guesses = Integer.toString(guess_count) + " GUESSES!";
+            Toast.makeText(this, "WORD FOUND IN " + guesses, Toast.LENGTH_LONG).show();
             g.setInputType(InputType.TYPE_NULL);
             submit.setVisibility(View.INVISIBLE);
+            giveup.setVisibility(View.INVISIBLE);
         }
         else if(guess_count > 10)
             Toast.makeText(this, "GAME OVER! WORD IS " + word, Toast.LENGTH_LONG).show();
         else {
             g_next.setVisibility(View.VISIBLE);
+            g.setFocusable(false);
             RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) submit.getLayoutParams();
             rlp.addRule(RelativeLayout.BELOW, g.getId());
             rlp.addRule(RelativeLayout.LEFT_OF, g_next.getId());
@@ -147,6 +190,7 @@ public class PlayActivity extends AppCompatActivity {
         guess = g.getText().toString();
 
         if(isValid(guess)) {
+            hideKeyboard(this);
             invalid = (TextView) findViewById(R.id.invalid);
             invalid.setVisibility(View.INVISIBLE);
             findBullsAndCows(guess);
@@ -155,6 +199,25 @@ public class PlayActivity extends AppCompatActivity {
             invalid = (TextView) findViewById(R.id.invalid);
             invalid.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void giveUp() {
+        Toast.makeText(getApplicationContext(), "GAVE UP! WORD IS " + word.toUpperCase(), Toast.LENGTH_LONG).show();
+        g.setInputType(InputType.TYPE_NULL);
+        submit.setVisibility(View.INVISIBLE);
+        giveup.setVisibility(View.INVISIBLE);
+        hideKeyboard(this);
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 }

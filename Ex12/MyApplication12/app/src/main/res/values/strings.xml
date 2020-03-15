@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">Bulls &amp; Cows</string>
+    <string name="instructions">
+        1. The first player will enter a valid\n
+        \t\t 4 letter word\n
+        2. The second player has 10 turns\n
+        \t\t to guess the word\n
+        3. If the guessed word and the\n
+        \t\t chosen word have the same\n
+        \t\t letter in the same position,\n
+        \t\t it is a BULL\n
+        4. If the guessed word and the\n
+        \t\t chosen word have the same\n
+        \t\t letter in a different position,\n
+        \t\t it is a COW\n
+        5. A BULL has a higher priority over\n
+        \t\t a COW\n
+        6. Based on the number of BULLS\n
+        \t\t and COWS in previous guesses,\n
+        \t\t the player has to find which\n
+        \t\t letters are present\n
+        7. When the word is found, or 10\n
+        \t\t guesses are over, or the player\n
+        \t\t gives up, the game is over and\n
+        \t\t the word is revealed
+    </string>
 </resources>
