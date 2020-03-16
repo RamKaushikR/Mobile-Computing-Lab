@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/main_layout"
     tools:context=".PlayActivity"
-    android:background="@drawable/play"
-    android:backgroundTint="#60FFFFFF"
-    android:backgroundTintMode="src_over"
+    android:background="@android:color/white"
     android:paddingTop="5dp">
 
     <EditText
